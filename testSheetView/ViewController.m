@@ -60,6 +60,9 @@
  */
 - (void)runtimeProperty {
     unsigned int count = 0;
+//    这里获取的是UIAlertAction这个类的所有的属性  和 类型 class_copyIvarList复制常用列表里面的所有的对应类的属性
+//    所以获取到的message可以说是UIAlertAction对应的某个的属性
+//     改变其内容实质上就是替换了原有的value或者是直接替换对应的控价 调用 object_setIvar(<#id obj#>, <#Ivar ivar#>, <#id value#>)
     Ivar *property = class_copyIvarList([UIAlertAction class], &count);
     for (int i = 0; i < count; i++) {
         Ivar var = property[i];
@@ -67,7 +70,7 @@
         const char *type = ivar_getTypeEncoding(var);
         NSLog(@"%s =====ppppppp========== %s---------%ld\n***\n***\n",name,type,(long)i);
     }
-    Ivar message = property[3];
+    Ivar message = property[13];
 //    /**
 //     *  字体修改
 //     */
@@ -90,7 +93,7 @@
     btn.backgroundColor = [UIColor redColor];
     [btn addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
     
-    
+    object_setIvar(action, message, vc);
     
 }
 
@@ -107,42 +110,6 @@
         NSLog(@"methodName ============= %@",methodName);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
